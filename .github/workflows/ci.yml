@@ -1,0 +1,53 @@
+name: ARGOS-360 DataOps CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  dataops-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: SQLFluff Linting
+        run: |
+          sqlfluff lint dbt_ecommerce/models/
+
+      - name: 1. Generate Synthetic Bronze Data
+        run: |
+          python src/generator/generate_raw_data.py
+
+      - name: 2. Execute MDM Entity Resolution (Silver Layer)
+        run: |
+          python src/mdm/entity_resolution.py
+
+      - name: 3. dbt Snapshots (SCD Type 2)
+        working-directory: ./dbt_ecommerce
+        run: |
+          dbt snapshot --profiles-dir .
+
+      - name: 4. dbt Compile & Run (Gold Marts)
+        working-directory: ./dbt_ecommerce
+        run: |
+          dbt run --profiles-dir .
+
+      - name: 5. dbt Data Quality Tests
+        working-directory: ./dbt_ecommerce
+        run: |
+          dbt test --profiles-dir .

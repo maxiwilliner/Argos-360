@@ -1,0 +1,9 @@
+argos360_duckdb:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: '../argos360_lakehouse.duckdb'
+      threads: 4
+      extensions:
+        - parquet

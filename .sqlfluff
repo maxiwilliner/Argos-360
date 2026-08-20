@@ -1,0 +1,13 @@
+[sqlfluff]
+dialect = duckdb
+templater = dbt
+max_line_length = 100
+exclude_rules = L031,L034
+
+[sqlfluff:templater:dbt]
+project_dir = ./dbt_ecommerce
+profiles_dir = ./dbt_ecommerce
+
+[sqlfluff:indentation]
+indent_unit = space
+tab_space_size = 4

@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# dbt artifacts
+dbt_ecommerce/target/
+dbt_ecommerce/dbt_packages/
+dbt_ecommerce/logs/
+
+# Data Lake files (gitignored to keep repo lightweight, generated via pipeline)
+data/01_raw/*.parquet
+data/02_silver/*.parquet
+data/03_gold/*.parquet
+*.duckdb
+*.duckdb.wal
+
+# OS / IDE files
+.DS_Store
+.idea/
+.vscode/
+*.swp

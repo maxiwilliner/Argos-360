@@ -1,0 +1,82 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Capa Oro: Dimensión calendario diaria con atributos temporales"
+    columns:
+      - name: date_key
+        description: "Clave primaria en formato entero YYYYMMDD"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_products
+    description: "Capa Oro: Dimensión de productos con jerarquías y rango de precio"
+    columns:
+      - name: product_id
+        description: "Clave primaria del producto"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_customers
+    description: "Capa Oro: Dimensión de clientes versionada mediante SCD Tipo 2 (dbt Snapshot)"
+    columns:
+      - name: customer_sk
+        description: "Clave subrogada generada por dbt snapshot para versionado histórico"
+        tests:
+          - unique
+          - not_null
+      - name: global_customer_id
+        description: "Identificador unificado Customer 360"
+        tests:
+          - not_null
+      - name: is_current_record
+        description: "Bandera booleana que indica si es la versión activa actual"
+        tests:
+          - not_null
+
+  - name: fact_orders
+    description: "Capa Oro: Tabla de hechos transaccional de órdenes a nivel de línea de producto"
+    columns:
+      - name: order_id
+        description: "Clave primaria del pedido"
+        tests:
+          - unique
+          - not_null
+      - name: order_date_key
+        description: "Clave foránea hacia dim_date"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: product_id
+        description: "Clave foránea hacia dim_products"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+      - name: net_amount
+        description: "Monto neto cobrado"
+        tests:
+          - not_null
+
+  - name: fact_customer_rfm
+    description: "Capa Oro: Hechos de valor de cliente (Customer 360), LTV y segmentación RFM"
+    columns:
+      - name: global_customer_id
+        description: "Clave primaria del cliente único"
+        tests:
+          - unique
+          - not_null
+      - name: customer_rfm_segment
+        description: "Segmento de cliente asignado (Champions, Loyal, At Risk, etc.)"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Champions', 'Loyal Customers', 'Potential Loyalists', 'Recent New Customers', 'At Risk Customers', 'Lost / Hibernating', 'Standard Customers']

@@ -1,0 +1,25 @@
+name: 'argos360_ecommerce'
+version: '1.0.0'
+config-version: 2
+
+profile: 'argos360_duckdb'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  argos360_ecommerce:
+    staging:
+      +materialized: external
+      +format: parquet
+    marts:
+      +materialized: external
+      +format: parquet

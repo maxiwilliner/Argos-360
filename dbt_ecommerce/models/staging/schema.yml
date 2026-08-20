@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Capa Plata: Clientes limpios con Golden Records y clusterización MDM"
+    columns:
+      - name: source_record_id
+        description: "Clave primaria del registro en el sistema de origen"
+        tests:
+          - unique
+          - not_null
+      - name: global_customer_id
+        description: "Identificador global único Customer 360 asignado por Splink MDM"
+        tests:
+          - not_null
+      - name: email
+        description: "Correo electrónico del cliente"
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: "Capa Plata: Catálogo de productos con costos, precios y márgenes calculados"
+    columns:
+      - name: product_id
+        description: "Clave primaria del producto"
+        tests:
+          - unique
+          - not_null
+      - name: category
+        description: "Categoría de producto"
+        tests:
+          - not_null
+      - name: unit_price
+        description: "Precio de venta unitario"
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: "Capa Plata: Transacciones de pedidos mapeadas al Global Customer 360 ID"
+    columns:
+      - name: order_id
+        description: "Identificador único de la orden"
+        tests:
+          - unique
+          - not_null
+      - name: global_customer_id
+        description: "Clave foránea hacia el Golden Record del cliente"
+        tests:
+          - not_null
+      - name: product_id
+        description: "Clave foránea hacia el producto"
+        tests:
+          - not_null
+      - name: net_amount
+        description: "Monto neto cobrado al cliente"
+        tests:
+          - not_null
