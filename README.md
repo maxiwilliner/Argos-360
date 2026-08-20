@@ -63,7 +63,7 @@ flowchart TD
 * **`fact_customer_rfm`:** Motor de segmentación conductual **RFM (Recency, Frequency, Monetary)** clasificando a los clientes en *Champions, Loyal, Potential Loyalists, At Risk y Lost*.
 * **`dim_customers`**, **`dim_products`**, **`dim_date`:** Dimensiones enriquecidas con jerarquías y categorías.
 
-### 5. 🤖 DataOps, Calidad y CI/CD
+### 5. DataOps, Calidad y CI/CD
 * Pipeline automatizado en **GitHub Actions (`.github/workflows/ci.yml`)** que ejecuta el linter de SQL (**SQLFluff**) y valida el 100% de los tests de calidad (**`dbt test`**) en cada *Pull Request*.
 
 ---
