@@ -68,7 +68,7 @@ flowchart TD
 
 ---
 
-##  Guía de Inicio Rápido (1 Comando)
+## Guía de Inicio Rápido (1 Comando)
 
 ### Prerrequisitos
 * Python 3.10 o superior.
@@ -100,7 +100,7 @@ make dashboard
 
 ---
 
-##  Estructura del Repositorio
+## Estructura del Repositorio
 
 ```text
 argos-360/
@@ -130,4 +130,3 @@ argos-360/
 ├── run_pipeline.py                     # Orquestación multiplataforma en Python
 └── requirements.txt                    # Dependencias del proyecto
 ```
-
