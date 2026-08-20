@@ -1,4 +1,4 @@
-# 🏛️ ARGOS-360: E-Commerce Customer 360 & Operations Lakehouse
+# ARGOS-360: E-Commerce Customer 360 & Operations Lakehouse
 
 [![CI/CD DataOps](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat&logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
 [![DuckDB](https://img.shields.io/badge/Engine-DuckDB-FFF000?style=flat&logo=duckdb&logoColor=black)](https://duckdb.org/)
@@ -11,7 +11,7 @@
 
 ---
 
-## 🏗️ Arquitectura End-to-End
+## Arquitectura End-to-End
 
 ```mermaid
 flowchart TD
@@ -45,20 +45,20 @@ flowchart TD
 
 ---
 
-## 🌟 Características Técnicas Destacadas
+## Características Técnicas Destacadas
 
-### 1. 🥇 Master Data Management (MDM) & Customer 360
+### 1. Master Data Management (MDM) & Customer 360
 * **Problema:** Múltiples fuentes (Shopify, Salesforce, HubSpot) generan identidades duplicadas por erratas tipográficas y variaciones de email.
 * **Solución:** Motor de resolución de entidades con **reglas de bloqueo determinístico y matching probabilístico difuso** ($\ge 88\%$ similitud Levenshtein/Jaro-Winkler) agrupado mediante componentes conexos (*Disjoint-Set Union-Find*).
 * **Resultado:** Creación de un **Golden Record** con `global_customer_id` único y trazabilidad completa hacia los registros de origen.
 
-### 2. 🏛️ Open Data Lakehouse con Parquet Físico
+### 2. Open Data Lakehouse con Parquet Físico
 * Todos los modelos de dbt utilizan la directiva `materialized='external'`, garantizando que las capas **Bronce (`01_raw`)**, **Plata (`02_silver`)** y **Oro (`03_gold`)** persistan físicamente como archivos `.parquet` abiertos en disco, eliminando cualquier dependencia propietaria.
 
-### 3. ⏳ Versionado Histórico (SCD Tipo 2) con dbt Snapshots
+### 3. Versionado Histórico (SCD Tipo 2) con dbt Snapshots
 * Implementación nativa de **Slowly Changing Dimensions (SCD Tipo 2)** en `snapshots/snp_customers.sql` para rastrear cambios en domicilios y atributos de clientes sin alterar el histórico de ventas.
 
-### 4. ⭐ Modelado Dimensional Kimball & Segmentación RFM
+### 4. Modelado Dimensional Kimball & Segmentación RFM
 * **`fact_orders`:** Hechos transaccionales con cálculo de márgenes netos, descuentos y tiempos de entrega.
 * **`fact_customer_rfm`:** Motor de segmentación conductual **RFM (Recency, Frequency, Monetary)** clasificando a los clientes en *Champions, Loyal, Potential Loyalists, At Risk y Lost*.
 * **`dim_customers`**, **`dim_products`**, **`dim_date`:** Dimensiones enriquecidas con jerarquías y categorías.
@@ -68,7 +68,7 @@ flowchart TD
 
 ---
 
-## 🚀 Guía de Inicio Rápido (1 Comando)
+##  Guía de Inicio Rápido (1 Comando)
 
 ### Prerrequisitos
 * Python 3.10 o superior.
@@ -100,7 +100,7 @@ make dashboard
 
 ---
 
-## 📁 Estructura del Repositorio
+##  Estructura del Repositorio
 
 ```text
 argos-360/
@@ -131,17 +131,3 @@ argos-360/
 └── requirements.txt                    # Dependencias del proyecto
 ```
 
----
-
-## 📚 Registros de Decisión Arquitectónica (ADRs)
-Para conocer los fundamentos técnicos y el "por qué" de cada decisión de diseño, consulta los documentos en la carpeta `docs/`:
-* [ADR 001: Adopción del Patrón Open Data Lakehouse con DuckDB y Parquet](docs/ADR_001_open_lakehouse_parquet.md)
-* [ADR 002: Master Data Management mediante Entity Resolution Probabilístico](docs/ADR_002_splink_entity_resolution.md)
-* [ADR 003: Gestión de Historial (SCD Tipo 2) mediante dbt Snapshots](docs/ADR_003_dbt_scd2_snapshots.md)
-
----
-
-## 👨‍💻 Autor & Contacto
-* **Autor:** Máximo
-* **Perfil:** Analytics Engineer / Data Architect
-* **LinkedIn:** [Tu Perfil de LinkedIn](https://www.linkedin.com/)
