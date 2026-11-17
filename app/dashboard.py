@@ -166,6 +166,14 @@ elif view_mode == "🔍 Individual Customer Profile":
     
     # Customer Selector
     merged_cust = customers[customers["is_current_record"] == True].merge(rfm, on="global_customer_id", how="left")
+    # fact_customer_rfm only contains customers with at least one DELIVERED order;
+    # the rest come back from the left join with NaN metrics.
+    merged_cust = merged_cust.fillna({
+        "lifetime_net_spend": 0.0,
+        "total_completed_orders": 0,
+        "average_order_value": 0.0,
+        "customer_rfm_segment": "Sin pedidos completados",
+    })
     customer_list = merged_cust.apply(lambda row: f"{row['global_customer_id']} - {row['full_name']} ({row['city']})", axis=1).tolist()
     
     selected_option = st.selectbox("Busca y selecciona un cliente:", customer_list)
